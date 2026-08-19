@@ -377,3 +377,5 @@ someone who can actually see their internals.
   time available, that's a real limitation. Treat every number in Section 5 as one representative
   sample, not a statistically robust distribution. Re-running any `src/workloads/run_*` or
   `src/harness/run_*` script will give you a fresh one.
+ 
+ 
