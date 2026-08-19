@@ -1,15 +1,15 @@
-﻿# Self-hosted candidates, each capped to CognoDB's free-tier spec: 0.5 vCPU / 256MB RAM.
-# Disk (1GB) is not hard-enforced here (Docker on Windows/Desktop has no reliable per-volume
-# quota mechanism) — instead the dataset is sized to comfortably fit, and actual on-disk
-# footprint is measured post-load and reported in the results matrix rather than capped.
+﻿# Self-hosted platforms, each capped to CognoDB's free-tier spec where possible: 0.5 vCPU /
+# 256MB RAM. Disk isn't hard-capped here — Docker on Windows doesn't have a reliable per-volume
+# quota — so instead the dataset is sized to fit comfortably and actual disk usage gets measured
+# after loading rather than enforced up front.
 #
-# Two platforms needed a documented, evidence-backed deviation from the 256MB baseline after
-# being confirmed OOM-killed at it (docker inspect --format '{{.State.OOMKilled}}') — see
-# README.md section 2 for the full writeup, not hidden:
-#   - ArangoDB: bumped to 512MB (2x) — OOM-killed ~6s into the query workload at 256MB.
-#   - Dgraph: bumped to 2GB for alpha (8x) — OOM-killed three separate times across the load
-#     and workload phases before surviving. Dgraph is also architecturally two processes
-#     (zero = cluster coordinator, alpha = data/query engine); zero holds to 128MB throughout.
+# ArangoDB and Dgraph both needed more memory than that once I actually tested them, not just
+# assumed it would be fine. Full story in README.md section 2, but the short version:
+#   - ArangoDB: bumped to 512MB. Got OOM-killed about 6 seconds into the query workload at 256MB.
+#   - Dgraph's alpha node: bumped to 2GB. Got OOM-killed three separate times (schema setup,
+#     mid-load, mid-workload) before it finally stayed up. Dgraph also runs as two processes —
+#     zero (cluster coordinator) and alpha (the actual database) — and zero was never a problem,
+#     staying well under 128MB the whole time.
 
 services:
   neo4j:
@@ -56,11 +56,9 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          # DEVIATION from strict 256MB parity (documented in README section 2): ArangoDB's
-          # resting memory after loading the benchmark dataset was already ~99% of 256MB before
-          # any query ran; the workload benchmark was confirmed (docker inspect
-          # .State.OOMKilled=true) OOM-killed within ~6 seconds of starting. Bumped to the
-          # smallest tier found to survive the full workload; see README for the exact value.
+          # Bumped from 256MB after it got OOM-killed ~6s into the query workload — loading
+          # alone already left it sitting at ~99% memory with nothing in reserve. See README
+          # section 2 for the full story.
           memory: 512M
     volumes:
       - arango_data:/var/lib/arangodb3
@@ -90,13 +88,10 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          # DEVIATION from strict 256MB parity (documented in README section 2): Dgraph's
-          # alpha node was confirmed (docker inspect .State.OOMKilled=true) OOM-killed at
-          # 256MB during schema Alter, at 512MB partway through node loading, and even at 1GB
-          # partway through the indexed-range-lookup workload query (after data loading and
-          # traversal/point-lookup queries had already succeeded at 1GB). Bumped again to the
-          # smallest tier found to survive the complete workload; see README for the exact
-          # value and rationale.
+          # Took three tries to land here: OOM-killed at 256MB during schema setup, OOM-killed
+          # again at 512MB mid-load, then OOM-killed a third time at 1GB — this time mid-workload,
+          # after loading and the traversal/point-lookup queries had already worked fine. 2GB is
+          # where it finally stayed up through everything. See README section 2.
           memory: 2048M
     volumes:
       - dgraph_alpha_data:/dgraph
