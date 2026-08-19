@@ -1,0 +1,34 @@
+{
+  "platform": "neo4j",
+  "read_write_ratio": 0.8,
+  "duration_sec": 5,
+  "sweep": {
+    "1": {
+      "total_ops": 246,
+      "reads": 193,
+      "writes": 53,
+      "failures": 0,
+      "ops_per_sec": 49.2,
+      "latency_p50_ms": 7.43,
+      "latency_p95_ms": 73.54
+    },
+    "10": {
+      "total_ops": 608,
+      "reads": 475,
+      "writes": 133,
+      "failures": 0,
+      "ops_per_sec": 120.6,
+      "latency_p50_ms": 95.48,
+      "latency_p95_ms": 106.12
+    },
+    "40": {
+      "total_ops": 995,
+      "reads": 784,
+      "writes": 211,
+      "failures": 3,
+      "ops_per_sec": 142.7,
+      "latency_p50_ms": 159.66,
+      "latency_p95_ms": 347.12
+    }
+  }
+}

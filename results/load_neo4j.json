@@ -1,0 +1,10 @@
+{
+  "platform": "neo4j",
+  "node_count": 36692,
+  "edge_count": 367662,
+  "node_load_seconds": 8.77,
+  "edge_load_seconds": 86.44,
+  "total_load_seconds": 95.22,
+  "nodes_per_second": 4182.2,
+  "edges_per_second": 4253.2
+}

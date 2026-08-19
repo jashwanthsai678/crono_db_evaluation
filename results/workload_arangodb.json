@@ -1,0 +1,15 @@
+{
+  "platform": "arangodb",
+  "traversal_1hop_p50_ms": 47.05,
+  "traversal_1hop_p95_ms": 54.12,
+  "traversal_2hop_p50_ms": 46.5,
+  "traversal_2hop_p95_ms": 53.25,
+  "traversal_3hop_p50_ms": 46.92,
+  "traversal_3hop_p95_ms": 52.95,
+  "point_lookup_p50_ms": 44.84,
+  "point_lookup_p95_ms": 52.76,
+  "indexed_range_lookup_p50_ms": 46.0,
+  "indexed_range_lookup_p95_ms": 53.49,
+  "aggregation_p50_ms": 44.77,
+  "aggregation_p95_ms": 52.84
+}

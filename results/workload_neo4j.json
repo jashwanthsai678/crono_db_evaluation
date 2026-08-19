@@ -1,0 +1,15 @@
+{
+  "platform": "neo4j",
+  "traversal_1hop_p50_ms": 3.99,
+  "traversal_1hop_p95_ms": 64.62,
+  "traversal_2hop_p50_ms": 5.47,
+  "traversal_2hop_p95_ms": 79.8,
+  "traversal_3hop_p50_ms": 13.35,
+  "traversal_3hop_p95_ms": 54.11,
+  "point_lookup_p50_ms": 5.76,
+  "point_lookup_p95_ms": 48.65,
+  "indexed_range_lookup_p50_ms": 6.85,
+  "indexed_range_lookup_p95_ms": 36.54,
+  "aggregation_p50_ms": 2.97,
+  "aggregation_p95_ms": 33.45
+}

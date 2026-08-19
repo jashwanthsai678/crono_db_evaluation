@@ -1,0 +1,11 @@
+{
+  "platform": "dgraph",
+  "node_count": 36692,
+  "edge_count": 367662,
+  "node_load_seconds": 18.21,
+  "edge_load_seconds": 44.77,
+  "total_load_seconds": 62.98,
+  "nodes_per_second": 2014.6,
+  "edges_per_second": 8212.1,
+  "resource_deviation": "alpha capped at 2GB, not the 256MB baseline - see README section 2"
+}

@@ -1,0 +1,10 @@
+{
+  "platform": "memgraph",
+  "node_count": 36692,
+  "edge_count": 367662,
+  "node_load_seconds": 0.3,
+  "edge_load_seconds": 4.54,
+  "total_load_seconds": 4.84,
+  "nodes_per_second": 121949.1,
+  "edges_per_second": 81058.5
+}

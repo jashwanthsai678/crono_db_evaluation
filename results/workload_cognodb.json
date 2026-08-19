@@ -1,0 +1,15 @@
+{
+  "platform": "cognodb",
+  "traversal_1hop_p50_ms": 258.37,
+  "traversal_1hop_p95_ms": 263.74,
+  "traversal_2hop_p50_ms": 260.51,
+  "traversal_2hop_p95_ms": 267.0,
+  "traversal_3hop_p50_ms": 260.96,
+  "traversal_3hop_p95_ms": 266.38,
+  "point_lookup_p50_ms": 258.2,
+  "point_lookup_p95_ms": 262.54,
+  "indexed_range_lookup_p50_ms": 277.46,
+  "indexed_range_lookup_p95_ms": 286.45,
+  "aggregation_p50_ms": 258.11,
+  "aggregation_p95_ms": 263.32
+}

@@ -1,0 +1,23 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Decompressed dataset (regenerated from the committed .gz on first use - see src/common/dataset.py)
+data/raw/*.txt
+data/processed/
+
+# Local tooling state, not part of the project
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

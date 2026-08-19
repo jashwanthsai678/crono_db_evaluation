@@ -1,0 +1,109 @@
+﻿# Self-hosted candidates, each capped to CognoDB's free-tier spec: 0.5 vCPU / 256MB RAM.
+# Disk (1GB) is not hard-enforced here (Docker on Windows/Desktop has no reliable per-volume
+# quota mechanism) — instead the dataset is sized to comfortably fit, and actual on-disk
+# footprint is measured post-load and reported in the results matrix rather than capped.
+#
+# Two platforms needed a documented, evidence-backed deviation from the 256MB baseline after
+# being confirmed OOM-killed at it (docker inspect --format '{{.State.OOMKilled}}') — see
+# README.md section 2 for the full writeup, not hidden:
+#   - ArangoDB: bumped to 512MB (2x) — OOM-killed ~6s into the query workload at 256MB.
+#   - Dgraph: bumped to 2GB for alpha (8x) — OOM-killed three separate times across the load
+#     and workload phases before surviving. Dgraph is also architecturally two processes
+#     (zero = cluster coordinator, alpha = data/query engine); zero holds to 128MB throughout.
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: bench-neo4j
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    environment:
+      NEO4J_AUTH: neo4j/benchmarkpass
+      NEO4J_server_memory_heap_initial__size: 96m
+      NEO4J_server_memory_heap_max__size: 96m
+      NEO4J_server_memory_pagecache_size: 32m
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    volumes:
+      - neo4j_data:/data
+
+  memgraph:
+    image: memgraph/memgraph:latest
+    container_name: bench-memgraph
+    ports:
+      - "7688:7687"
+    command: ["--memory-limit=200"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    volumes:
+      - memgraph_data:/var/lib/memgraph
+
+  arangodb:
+    image: arangodb:3.12
+    container_name: bench-arangodb
+    ports:
+      - "8529:8529"
+    environment:
+      ARANGO_ROOT_PASSWORD: benchmarkpass
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          # DEVIATION from strict 256MB parity (documented in README section 2): ArangoDB's
+          # resting memory after loading the benchmark dataset was already ~99% of 256MB before
+          # any query ran; the workload benchmark was confirmed (docker inspect
+          # .State.OOMKilled=true) OOM-killed within ~6 seconds of starting. Bumped to the
+          # smallest tier found to survive the full workload; see README for the exact value.
+          memory: 512M
+    volumes:
+      - arango_data:/var/lib/arangodb3
+
+  dgraph-zero:
+    image: dgraph/dgraph:latest
+    container_name: bench-dgraph-zero
+    command: ["dgraph", "zero", "--my=dgraph-zero:5080"]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+    volumes:
+      - dgraph_zero_data:/dgraph
+
+  dgraph-alpha:
+    image: dgraph/dgraph:latest
+    container_name: bench-dgraph-alpha
+    command: ["dgraph", "alpha", "--my=dgraph-alpha:7080", "--zero=dgraph-zero:5080", "--security", "whitelist=0.0.0.0/0"]
+    ports:
+      - "8080:8080"
+      - "9080:9080"
+    depends_on:
+      - dgraph-zero
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          # DEVIATION from strict 256MB parity (documented in README section 2): Dgraph's
+          # alpha node was confirmed (docker inspect .State.OOMKilled=true) OOM-killed at
+          # 256MB during schema Alter, at 512MB partway through node loading, and even at 1GB
+          # partway through the indexed-range-lookup workload query (after data loading and
+          # traversal/point-lookup queries had already succeeded at 1GB). Bumped again to the
+          # smallest tier found to survive the complete workload; see README for the exact
+          # value and rationale.
+          memory: 2048M
+    volumes:
+      - dgraph_alpha_data:/dgraph
+
+volumes:
+  neo4j_data:
+  memgraph_data:
+  arango_data:
+  dgraph_zero_data:
+  dgraph_alpha_data:

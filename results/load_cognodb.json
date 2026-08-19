@@ -1,0 +1,10 @@
+{
+  "platform": "cognodb",
+  "node_count": 36692,
+  "edge_count": 367662,
+  "node_load_seconds": 9.13,
+  "edge_load_seconds": 102.4,
+  "total_load_seconds": 111.53,
+  "nodes_per_second": 4018.6,
+  "edges_per_second": 3590.4
+}

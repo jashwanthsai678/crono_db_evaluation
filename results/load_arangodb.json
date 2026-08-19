@@ -1,0 +1,10 @@
+{
+  "platform": "arangodb",
+  "node_count": 36692,
+  "edge_count": 367662,
+  "node_load_seconds": 1.01,
+  "edge_load_seconds": 14.15,
+  "total_load_seconds": 15.15,
+  "nodes_per_second": 36501.6,
+  "edges_per_second": 25989.0
+}

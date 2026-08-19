@@ -1,0 +1,34 @@
+{
+  "platform": "memgraph",
+  "read_write_ratio": 0.8,
+  "duration_sec": 5,
+  "sweep": {
+    "1": {
+      "total_ops": 2798,
+      "reads": 2266,
+      "writes": 532,
+      "failures": 0,
+      "ops_per_sec": 559.6,
+      "latency_p50_ms": 0.8,
+      "latency_p95_ms": 1.87
+    },
+    "10": {
+      "total_ops": 2712,
+      "reads": 2154,
+      "writes": 558,
+      "failures": 1,
+      "ops_per_sec": 535.8,
+      "latency_p50_ms": 5.2,
+      "latency_p95_ms": 80.73
+    },
+    "40": {
+      "total_ops": 3695,
+      "reads": 2967,
+      "writes": 728,
+      "failures": 4,
+      "ops_per_sec": 733.4,
+      "latency_p50_ms": 52.5,
+      "latency_p95_ms": 102.64
+    }
+  }
+}

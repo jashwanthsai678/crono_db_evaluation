@@ -1,0 +1,16 @@
+{
+  "platform": "dgraph",
+  "resource_deviation": "alpha at 2GB for workload queries, not the 256MB baseline (1GB sufficed for loading only)",
+  "traversal_1hop_p50_ms": 1.77,
+  "traversal_1hop_p95_ms": 42.75,
+  "traversal_2hop_p50_ms": 2.25,
+  "traversal_2hop_p95_ms": 61.32,
+  "traversal_3hop_p50_ms": 5.68,
+  "traversal_3hop_p95_ms": 89.93,
+  "point_lookup_p50_ms": 1.34,
+  "point_lookup_p95_ms": 19.24,
+  "indexed_range_lookup_p50_ms": 503.04,
+  "indexed_range_lookup_p95_ms": 898.28,
+  "aggregation_p50_ms": 1011.16,
+  "aggregation_p95_ms": 1333.49
+}
